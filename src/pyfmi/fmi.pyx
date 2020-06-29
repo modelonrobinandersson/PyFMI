@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # Copyright (C) 2014 Modelon AB
@@ -1158,6 +1158,10 @@ cdef class FMUState2:
     """
     def __init__(self):
         self.fmu_state = NULL
+        self._internal_state_variables = {'initialized_fmu': None,
+                                          'has_entered_init_mode': None,
+                                          'time': None,
+                                          'allocated_fmu': None}
 
 
 
@@ -5698,12 +5702,12 @@ cdef class FMUModelBase2(ModelBase):
         Creates a copy of the recent FMU-state and returns
         a pointer to this state which later can be used to
         set the FMU to this state.
-        
+
         Parameters::
-        
+
             state --
                 Optionally a pointer to an already allocated FMU state
-        
+
         Returns::
 
             A pointer to a copy of the recent FMU state.
@@ -5713,7 +5717,7 @@ cdef class FMUModelBase2(ModelBase):
             FMU_state = model.get_fmu_state()
         """
         cdef int status
-        
+
         if state is None:
             state = FMUState2()
 
@@ -5724,7 +5728,12 @@ cdef class FMUModelBase2(ModelBase):
 
         if status != 0:
             raise FMUException('An error occured while trying to get the FMU-state, see the log for possible more information')
-        
+
+        state._internal_state_variables['time'] = self.time
+        state._internal_state_variables['initialized_fmu'] = self._initialized_fmu
+        state._internal_state_variables['has_entered_init_mode'] = self._has_entered_init_mode
+        state._internal_state_variables['allocated_fmu'] = self._allocated_fmu # maybe this is redundant
+
         return state
 
     def set_fmu_state(self, FMUState2 state):
@@ -5751,6 +5760,11 @@ cdef class FMUModelBase2(ModelBase):
 
         if status != 0:
             raise FMUException('An error occured while trying to set the FMU-state, see the log for possible more information')
+
+        self.time = state._internal_state_variables['time']
+        self._has_entered_init_mode = state._internal_state_variables['has_entered_init_mode']
+        self._allocated_fmu = state._internal_state_variables['allocated_fmu']
+        self._initialized_fmu = state._internal_state_variables['initialized_fmu']
 
     def free_fmu_state(self, FMUState2 state):
         """
