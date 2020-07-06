@@ -1160,7 +1160,8 @@ cdef class FMUState2:
         self.fmu_state = NULL
         self._internal_state_variables = {'initialized_fmu': None,
                                           'has_entered_init_mode': None,
-                                          'time': None}
+                                          'time': None,
+                                          '_log_level': None}
 
 
 
@@ -5731,6 +5732,7 @@ cdef class FMUModelBase2(ModelBase):
         state._internal_state_variables['time'] = self.time
         state._internal_state_variables['initialized_fmu'] = self._initialized_fmu
         state._internal_state_variables['has_entered_init_mode'] = self._has_entered_init_mode
+        state._internal_state_variables['_log_level'] = self.get('_log_level')[0]
 
         return state
 
@@ -5762,6 +5764,7 @@ cdef class FMUModelBase2(ModelBase):
         self.time = state._internal_state_variables['time']
         self._has_entered_init_mode = state._internal_state_variables['has_entered_init_mode']
         self._initialized_fmu = state._internal_state_variables['initialized_fmu']
+        self.set('_log_level', state._internal_state_variables['_log_level'])
 
     def free_fmu_state(self, FMUState2 state):
         """
