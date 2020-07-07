@@ -5797,6 +5797,7 @@ cdef class FMUModelBase2(ModelBase):
         
         #Memory has been released
         state.fmu_state = NULL
+        state._internal_state_variables = {}
 
     cpdef serialize_fmu_state(self, state):
         """
