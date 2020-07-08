@@ -5761,10 +5761,14 @@ cdef class FMUModelBase2(ModelBase):
         if status != 0:
             raise FMUException('An error occured while trying to set the FMU-state, see the log for possible more information')
 
-        self.time = state._internal_state_variables['time']
-        self._has_entered_init_mode = state._internal_state_variables['has_entered_init_mode']
-        self._initialized_fmu = state._internal_state_variables['initialized_fmu']
-        self.set('_log_level', state._internal_state_variables['_log_level'])
+        if state._internal_state_variables['time']:
+            self.time = state._internal_state_variables['time']
+        if state._internal_state_variables['has_entered_init_mode']:
+            self._has_entered_init_mode = state._internal_state_variables['has_entered_init_mode']
+        if state._internal_state_variables['initialized_fmu']:
+            self._initialized_fmu = state._internal_state_variables['initialized_fmu']
+        if state._internal_state_variables['_log_level']:
+            self.set('_log_level', state._internal_state_variables['_log_level'])
 
     def free_fmu_state(self, FMUState2 state):
         """
