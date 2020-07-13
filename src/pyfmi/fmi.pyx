@@ -5813,7 +5813,7 @@ cdef class FMUModelBase2(ModelBase):
                 A FMU-state.
 
         Returns::
-            A vector with the serialized FMU-state.
+            A list with a vector with the serialized FMU-state and internal state values.
 
         Example::
             FMU_state = Model.get_fmu_state()
@@ -5840,7 +5840,9 @@ cdef class FMUModelBase2(ModelBase):
         if status != 0:
             raise FMUException('An error occured while serializing the FMU-state, see the log for possible more information')
 
-        return serialized_fmu
+        # We temporarily return a list with wrapper values in the second entry.
+        # What we need to do is add serialization/deserialization for the wrapper values
+        return [serialized_fmu, list(internal_state._internal_state_variables.values())]
 
     cpdef deserialize_fmu_state(self, serialized_fmu):
         """
@@ -5863,7 +5865,7 @@ cdef class FMUModelBase2(ModelBase):
         """
 
         cdef int status
-        cdef N.ndarray[FMIL.fmi2_byte_t, ndim=1, mode='c'] ser_fmu = serialized_fmu
+        cdef N.ndarray[FMIL.fmi2_byte_t, ndim=1, mode='c'] ser_fmu = serialized_fmu[0]
         cdef FMUState2 state = FMUState2()
         cdef FMIL.size_t n_byte = len(ser_fmu)
 
@@ -5871,6 +5873,12 @@ cdef class FMUModelBase2(ModelBase):
 
         if status != 0:
             raise FMUException('An error occured while deserializing the FMU-state, see the log for possible more information')
+
+
+        state._internal_state_variables = {'initialized_fmu': serialized_fmu[1][0],
+                                           'has_entered_init_mode': serialized_fmu[1][1],
+                                           'time': serialized_fmu[1][2],
+                                           '_log_level': serialized_fmu[1][3]}
 
         return state
 
