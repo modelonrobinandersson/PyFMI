@@ -1161,7 +1161,7 @@ cdef class FMUState2:
         self._internal_state_variables = {'initialized_fmu': None,
                                           'has_entered_init_mode': None,
                                           'time': None,
-                                          '_log_level': None}
+                                          'callback_log_level': None}
 
 
 
@@ -5732,7 +5732,7 @@ cdef class FMUModelBase2(ModelBase):
         state._internal_state_variables['time'] = self.time
         state._internal_state_variables['initialized_fmu'] = self._initialized_fmu
         state._internal_state_variables['has_entered_init_mode'] = self._has_entered_init_mode
-        state._internal_state_variables['_log_level'] = self.get('_log_level')[0]
+        state._internal_state_variables['callback_log_level'] = self.callbacks.log_level
 
         return state
 
@@ -5767,8 +5767,8 @@ cdef class FMUModelBase2(ModelBase):
             self._has_entered_init_mode = state._internal_state_variables['has_entered_init_mode']
         if state._internal_state_variables['initialized_fmu'] is not None:
             self._initialized_fmu = state._internal_state_variables['initialized_fmu']
-        if state._internal_state_variables['_log_level'] is not None:
-            self.set('_log_level', state._internal_state_variables['_log_level'])
+        if state._internal_state_variables['callback_log_level'] is not None:
+            self.callbacks.log_level = state._internal_state_variables['callback_log_level']
 
     def free_fmu_state(self, FMUState2 state):
         """
@@ -5878,7 +5878,7 @@ cdef class FMUModelBase2(ModelBase):
         state._internal_state_variables = {'initialized_fmu': serialized_fmu[1][0],
                                            'has_entered_init_mode': serialized_fmu[1][1],
                                            'time': serialized_fmu[1][2],
-                                           '_log_level': serialized_fmu[1][3]}
+                                           'callback_log_level': serialized_fmu[1][3]}
 
         return state
 
