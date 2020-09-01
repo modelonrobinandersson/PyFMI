@@ -193,17 +193,12 @@ cdef class ModelBase:
         """
         Sets the given value(s) to the specified variable name(s) into the
         model. The method both accept a single variable and a list of variables.
-
         Parameters::
-
             variable_name --
                 The name of the variable(s) as string/list.
-
             value --
                 The value(s) to set.
-
         Example::
-
             model.set('damper.d', 1.1)
             model.set(['damper.d','gear.a'], [1.1, 10])
         """
@@ -217,18 +212,12 @@ cdef class ModelBase:
         """
         Returns the value(s) of the specified variable(s). The method both
         accept a single variable and a list of variables.
-
         Parameters::
-
             variable_name --
                 The name of the variable(s) as string/list.
-
         Returns::
-
             The value(s).
-
         Example::
-
             # Returns the variable d
             model.get('damper.d')
             # Returns a list of the variables
@@ -246,9 +235,7 @@ cdef class ModelBase:
         """
         Helper function which performs all steps of an algorithm run which are
         common to all initialize and optimize algorithms.
-
         Raises::
-
             Exception if algorithm is not a subclass of
             common.algorithm_drivers.AlgorithmBase.
         """
@@ -281,9 +268,7 @@ cdef class ModelBase:
         """
         Helper function which performs all steps of an algorithm run which are
         common to all simulate algorithms.
-
         Raises::
-
             Exception if algorithm is not a subclass of
             common.algorithm_drivers.AlgorithmBase.
         """
@@ -327,9 +312,7 @@ cdef class ModelBase:
         """
         Helper function which performs all steps of an algorithm run which are
         common to all estimation algorithms.
-
         Raises::
-
             Exception if algorithm is not a subclass of
             common.algorithm_drivers.AlgorithmBase.
         """
@@ -383,29 +366,22 @@ cdef class ModelBase:
                  options={}):
         """
         Compact function for model estimation.
-
         The estimation method depends on which algorithm is used, this can be
         set with the function argument 'algorithm'. Options for the algorithm
         are passed as option classes or as pure dicts. See
         model.estimate_options for more details.
-
         The default algorithm for this function is SciEstAlg.
-
         Parameters::
-
             parameters --
                 The tunable parameters (required)
-
             measurements --
                 The measurements data (name, data). Note that the measurements
                 needs to be distinct and equally spaced. (required)
-
             input --
                 Input signal for the estimation. The input should be a 2-tuple
                 consisting of first the names of the input variable(s) and then
                 the data matrix.
                 Default: Empty tuple.
-
             algorithm --
                 The algorithm which will be used for the estimation is specified
                 by passing the algorithm class as string or class object in this
@@ -414,15 +390,12 @@ cdef class ModelBase:
                 this way it is possible to write own algorithms and use them
                 with this function.
                 Default: 'SciEstAlg'
-
             options --
                 The options that should be used in the algorithm. For details on
                 the options do:
-
                     >> myModel = load_fmu(...)
                     >> opts = myModel.estimate_options()
                     >> opts?
-
                 Valid values are:
                     - A dict which gives SciEstAlgOptions with
                       default values on all options except the ones
@@ -430,9 +403,7 @@ cdef class ModelBase:
                       options with default values.
                     - An options object.
                 Default: Empty dict
-
         Returns::
-
             Result object, subclass of common.algorithm_drivers.ResultBase.
         """
 
@@ -448,16 +419,12 @@ cdef class ModelBase:
         Get an instance of the estimation options class, filled with default
         values. If called without argument then the options class for the
         default estimation algorithm will be returned.
-
         Parameters::
-
             algorithm --
                 The algorithm for which the options class should be fetched.
                 Possible values are: 'SciEstAlg'.
                 Default: 'SciEstAlg'
-
         Returns::
-
             Options class for the algorithm specified with default values.
         """
         return self._default_options('pyfmi.fmi_algorithm_drivers', algorithm)
@@ -520,9 +487,7 @@ cdef class ModelBase:
         first log message to the log and consists of, in the following 
         order, the instance name, the status, the category and the 
         message.
-
         Returns::
-
             log - A list of lists.
         """
         cdef int i = 0
@@ -637,9 +602,7 @@ cdef class ModelBase:
         Specifies the log level for PyFMI. Note that this is
         different from the FMU logging which is specified via
         set_debug_logging.
-
         Parameters::
-
             level --
                 The log level. Available values:
                     NOTHING = 0
@@ -667,9 +630,7 @@ cdef class ModelBase:
         Set an additional logger function that will, an addition to
         the normal FMU log file, also be fed with all model log
         messages.
-
         Parameter::
-
             additional_logger --
                 The callback function that should accept three arguments:
                 module(str), log_level(int), message(str)
@@ -680,14 +641,10 @@ cdef class ModelBase:
         """
         Convert a filter based on unix filename pattern matching to a
         list of regular expressions.
-
         Parameters::
-
             expression--
                 String or list to convert.
-
         Returns::
-
             The converted filter.
         """
         regexp = []
@@ -752,9 +709,7 @@ cdef class ScalarVariable:
     def _get_name(self):
         """
         Get the value of the name attribute.
-
         Returns::
-
             The name attribute value as string.
         """
         return self._name
@@ -763,9 +718,7 @@ cdef class ScalarVariable:
     def _get_value_reference(self):
         """
         Get the value of the value reference attribute.
-
         Returns::
-
             The value reference as unsigned int.
         """
         return self._value_reference
@@ -774,9 +727,7 @@ cdef class ScalarVariable:
     def _get_type(self):
         """
         Get the value of the data type attribute.
-
         Returns::
-
             The data type attribute value as enumeration: FMI_REAL(0),
             FMI_INTEGER(1), FMI_BOOLEAN(2), FMI_STRING(3) or FMI_ENUMERATION(4).
         """
@@ -786,9 +737,7 @@ cdef class ScalarVariable:
     def _get_description(self):
         """
         Get the value of the description attribute.
-
         Returns::
-
             The description attribute value as string (empty string if
             not set).
         """
@@ -798,9 +747,7 @@ cdef class ScalarVariable:
     def _get_variability(self):
         """
         Get the value of the variability attribute.
-
         Returns::
-
             The variability attribute value as enumeration:
             FMI_CONSTANT(0), FMI_PARAMETER(1), FMI_DISCRETE(2) or FMI_CONTINUOUS(3).
         """
@@ -810,9 +757,7 @@ cdef class ScalarVariable:
     def _get_causality(self):
         """
         Get the value of the causality attribute.
-
         Returns::
-
             The causality attribute value as enumeration: FMI_INPUT(0),
             FMI_OUTPUT(1), FMI_INTERNAL(2) or FMI_NONE(3).
         """
@@ -822,9 +767,7 @@ cdef class ScalarVariable:
     def _get_alias(self):
         """
         Get the value of the alias attribute.
-
         Returns::
-
             The alias attribute value as enumeration: FMI_NO_ALIAS(0),
             FMI_ALIAS(1) or FMI_NEGATED_ALIAS(-1).
         """
@@ -869,9 +812,7 @@ cdef class ScalarVariable2:
     def _get_name(self):
         """
         Get the value of the name attribute.
-
         Returns::
-
             The name attribute value as string.
         """
         return self._name
@@ -880,9 +821,7 @@ cdef class ScalarVariable2:
     def _get_value_reference(self):
         """
         Get the value of the value reference attribute.
-
         Returns::
-
             The value reference as unsigned int.
         """
         return self._value_reference
@@ -891,9 +830,7 @@ cdef class ScalarVariable2:
     def _get_type(self):
         """
         Get the value of the data type attribute.
-
         Returns::
-
             The data type attribute value as enumeration: FMI2_REAL(0),
             FMI2_INTEGER(1), FMI2_BOOLEAN(2), FMI2_STRING(3) or FMI2_ENUMERATION(4).
         """
@@ -903,9 +840,7 @@ cdef class ScalarVariable2:
     def _get_description(self):
         """
         Get the value of the description attribute.
-
         Returns::
-
             The description attribute value as string (empty string if
             not set).
         """
@@ -915,9 +850,7 @@ cdef class ScalarVariable2:
     def _get_variability(self):
         """
         Get the value of the variability attribute.
-
         Returns::
-
             The variability of the variable: FMI2_CONSTANT(0), FMI2_FIXED(1),
             FMI2_TUNABLE(2), FMI2_DISCRETE(3), FMI2_CONTINUOUS(4) or FMI2_UNKNOWN(5)
         """
@@ -927,9 +860,7 @@ cdef class ScalarVariable2:
     def _get_causality(self):
         """
         Get the value of the causality attribute.
-
         Returns::
-
             The causality of the variable, FMI2_PARAMETER(0), FMI2_CALCULATED_PARAMETER(1), FMI2_INPUT(2),
             FMI2_OUTPUT(3), FMI2_LOCAL(4), FMI2_INDEPENDENT(5), FMI2_UNKNOWN(6)
         """
@@ -939,9 +870,7 @@ cdef class ScalarVariable2:
     def _get_alias(self):
         """
         Get the value of the alias attribute.
-
         Returns::
-
             The alias attribute value as enumeration: FMI_NO_ALIAS,
             FMI_ALIAS or FMI_NEGATED_ALIAS.
         """
@@ -951,9 +880,7 @@ cdef class ScalarVariable2:
     def _get_initial(self):
         """
         Get the value of the initial attribute.
-
         Returns::
-
             The initial attribute value as enumeration: FMI2_INITIAL_EXACT, 
                               FMI2_INITIAL_APPROX, FMI2_INITIAL_CALCULATED, 
                               FMI2_INITIAL_UNKNOWN    
@@ -973,9 +900,7 @@ cdef class DeclaredType2:
     def _get_name(self):
         """
         Get the value of the name attribute.
-
         Returns::
-
             The name attribute value as string.
         """
         return self._name
@@ -984,9 +909,7 @@ cdef class DeclaredType2:
     def _get_description(self):
         """
         Get the value of the description attribute.
-
         Returns::
-
             The description attribute value as string (empty string if
             not set).
         """
@@ -1005,9 +928,7 @@ cdef class EnumerationType2(DeclaredType2):
     def _get_quantity(self):
         """
         Get the quantity of the enumeration type.
-
         Returns::
-
             The quantity as string (empty string if
             not set).
         """
@@ -1158,10 +1079,11 @@ cdef class FMUState2:
     """
     def __init__(self):
         self.fmu_state = NULL
-        self._internal_state_variables = {'initialized_fmu': None,
-                                          'has_entered_init_mode': None,
-                                          'time': None,
-                                          'callback_log_level': None}
+        self._internal_state_variables = OrderedDict([
+                                          ('initialized_fmu', None),
+                                          ('has_entered_init_mode', None),
+                                          ('time', None),
+                                          ('callback_log_level', None)])
 
 
 
@@ -1319,14 +1241,10 @@ cdef class FMUModelBase(ModelBase):
     def get_version(self):
         """
         Returns the FMI version of the Model which it was generated according.
-
         Returns::
-
             version --
                 The version.
-
         Example::
-
             model.get_version()
         """
         version = FMIL.fmi1_import_get_version(self._fmu)
@@ -1335,14 +1253,10 @@ cdef class FMUModelBase(ModelBase):
     def _get_version(self):
         """
         Returns the FMI version of the Model which it was generated according.
-
         Returns::
-
             version --
                 The version.
-
         Example::
-
             model.version
         """
         logging.warning("The attribute 'version' is deprecated, use 'get_version()' instead.")
@@ -1355,17 +1269,12 @@ cdef class FMUModelBase(ModelBase):
         """
         Returns the number of continuous states and the number of event
         indicators.
-
         Returns::
-
             nbr_cont --
                 The number of continuous states.
-
             nbr_ind --
                 The number of event indicators.
-
         Example::
-
             [nCont, nEvent] = model.get_ode_sizes()
         """
         return self._nContinuousStates, self._nEventIndicators
@@ -1373,21 +1282,14 @@ cdef class FMUModelBase(ModelBase):
     def get_real(self, valueref):
         """
         Returns the real-values from the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
         Returns::
-
             values --
                 The values retrieved from the FMU.
-
         Example::
-
             val = model.get_real([232])
-
         Calls the low-level FMI function: fmiGetReal
         """
         cdef int status
@@ -1407,19 +1309,13 @@ cdef class FMUModelBase(ModelBase):
     def set_real(self, valueref, values):
         """
         Sets the real-values in the FMU as defined by the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
             values --
                 Values to be set.
-
         Example::
-
             model.set_real([234,235],[2.34,10.4])
-
         Calls the low-level FMI function: fmiSetReal
         """
         cdef int status
@@ -1440,21 +1336,14 @@ cdef class FMUModelBase(ModelBase):
     def get_integer(self, valueref):
         """
         Returns the integer-values from the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
         Return::
-
             values --
                 The values retrieved from the FMU.
-
         Example::
-
             val = model.get_integer([232])
-
         Calls the low-level FMI function: fmiGetInteger
         """
         cdef int status
@@ -1474,19 +1363,13 @@ cdef class FMUModelBase(ModelBase):
     def set_integer(self, valueref, values):
         """
         Sets the integer-values in the FMU as defined by the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
             values --
                 Values to be set.
-
         Example::
-
             model.set_integer([234,235],[12,-3])
-
         Calls the low-level FMI function: fmiSetInteger
         """
         cdef int status
@@ -1509,21 +1392,14 @@ cdef class FMUModelBase(ModelBase):
     def get_boolean(self, valueref):
         """
         Returns the boolean-values from the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
         Returns::
-
             values --
                 The values retrieved from the FMU.
-
         Example::
-
             val = model.get_boolean([232])
-
         Calls the low-level FMI function: fmiGetBoolean
         """
         cdef int status
@@ -1551,19 +1427,13 @@ cdef class FMUModelBase(ModelBase):
     def set_boolean(self, valueref, values):
         """
         Sets the boolean-values in the FMU as defined by the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
             values --
                 Values to be set.
-
         Example::
-
             model.set_boolean([234,235],[True,False])
-
         Calls the low-level FMI function: fmiSetBoolean
         """
         cdef int status
@@ -1595,21 +1465,14 @@ cdef class FMUModelBase(ModelBase):
     def get_string(self, valueref):
         """
         Returns the string-values from the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
         Returns::
-
             values --
                 The values retrieved from the FMU.
-
         Example::
-
             val = model.get_string([232])
-
         Calls the low-level FMI function: fmiGetString
         """
         cdef int         status
@@ -1632,19 +1495,13 @@ cdef class FMUModelBase(ModelBase):
     def set_string(self, valueref, values):
         """
         Sets the string-values in the FMU as defined by the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
             values --
                 Values to be set.
-
         Example::
-
             model.set_string([234,235],['text','text'])
-
         Calls the low-level FMI function: fmiSetString
         """
         cdef int status
@@ -1676,12 +1533,9 @@ cdef class FMUModelBase(ModelBase):
         PyFMI which are additionally filtered using the method 
         'set_log_level'. To specify actual given logging output, 
         please use also use that method.
-
         Parameters::
-
             flag --
                 Boolean value.
-
         Calls the low-level FMI function: fmiSetDebuggLogging
         """
         cdef FMIL.fmi1_boolean_t log
@@ -1779,14 +1633,10 @@ cdef class FMUModelBase(ModelBase):
     cpdef get_variable_description(self, variable_name):
         """
         Get the description of a given variable.
-
         Parameter::
-
             variable_name --
                 The name of the variable
-
         Returns::
-
             The description of the variable.
         """
         cdef FMIL.fmi1_import_variable_t* variable
@@ -1823,14 +1673,10 @@ cdef class FMUModelBase(ModelBase):
     def get_scalar_variable(self, variable_name):
         """
         Get the variable as a scalar variable instance.
-
         Parameter::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             Instance of ScalarVariable.
         """
         cdef FMIL.fmi1_import_variable_t* variable
@@ -1847,14 +1693,10 @@ cdef class FMUModelBase(ModelBase):
     cpdef FMIL.fmi1_base_type_enu_t get_variable_data_type(self, variable_name) except *:
         """
         Get data type of variable.
-
         Parameter::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The type of the variable.
         """
         cdef FMIL.fmi1_import_variable_t* variable
@@ -1874,14 +1716,10 @@ cdef class FMUModelBase(ModelBase):
     cpdef FMIL.fmi1_value_reference_t get_variable_valueref(self, variable_name) except *:
         """
         Extract the ValueReference given a variable name.
-
         Parameters::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The ValueReference for the variable passed as argument.
         """
         cdef FMIL.fmi1_import_variable_t* variable
@@ -1901,7 +1739,6 @@ cdef class FMUModelBase(ModelBase):
         """
         Returns the nominal value from a real variable determined by
         either its value reference or its variable name.
-
         Parameters::
             
             variable_name --
@@ -1909,9 +1746,7 @@ cdef class FMUModelBase(ModelBase):
                 
             valueref --
                 The value reference of the variable.
-
         Returns::
-
             The nominal value of the given variable.
         """
         cdef FMIL.fmi1_import_variable_t *variable
@@ -1960,14 +1795,10 @@ cdef class FMUModelBase(ModelBase):
         Returns if the start value is fixed (True - The value is used as
         an initial value) or not (False - The value is used as a guess
         value).
-
         Parameters::
-
             variable_name --
                 The name of the variable
-
         Returns::
-
             If the start value is fixed or not.
         """
         cdef FMIL.fmi1_import_variable_t *variable
@@ -1993,14 +1824,10 @@ cdef class FMUModelBase(ModelBase):
         """
         Returns the start value for the variable or else raises
         FMUException.
-
         Parameters::
-
             variable_name --
                 The name of the variable
-
         Returns::
-
             The start value.
         """
         cdef FMIL.fmi1_import_variable_t *variable
@@ -2053,14 +1880,10 @@ cdef class FMUModelBase(ModelBase):
     cpdef get_variable_max(self, variable_name):
         """
         Returns the maximum value for the given variable.
-
         Parameters::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The maximum value for the variable.
         """
         cdef FMIL.fmi1_import_variable_t *variable
@@ -2096,14 +1919,10 @@ cdef class FMUModelBase(ModelBase):
     cpdef get_variable_min(self, variable_name):
         """
         Returns the minimum value for the given variable.
-
         Parameters::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The minimum value for the variable.
         """
         cdef FMIL.fmi1_import_variable_t *variable
@@ -2143,9 +1962,7 @@ cdef class FMUModelBase(ModelBase):
                             filter=None, int _as_list = False):
         """
         Extract the names of the variables in a model.
-
         Parameters::
-
             type --
                 The type of the variables (Real==0, Int==1, Bool=2,
                 String==3, Enumeration==4). Default None (i.e all).
@@ -2169,9 +1986,7 @@ cdef class FMUModelBase(ModelBase):
                 matching (filter="*der*"). Can also be a list of filters
                 See http://docs.python.org/2/library/fnmatch.html.
                 Default None
-
         Returns::
-
             Dict with variable name as key and a ScalarVariable class as
             value.
         """
@@ -2286,17 +2101,13 @@ cdef class FMUModelBase(ModelBase):
         Extract the value references of the variables in a model
         that are time-varying. This method is typically used to
         retrieve the variables for which the result can be stored.
-
         Parameters::
-
             filter --
                 Filter the variables using a unix filename pattern
                 matching (filter="*der*"). Can also be a list of filters
                 See http://docs.python.org/2/library/fnmatch.html.
                 Default None
-
         Returns::
-
             Three lists with the real, integer and boolean value-references
         """
         cdef FMIL.fmi1_import_variable_t *variable
@@ -2373,12 +2184,9 @@ cdef class FMUModelBase(ModelBase):
     def get_variable_alias_base(self, variable_name):
         """
         Returns the base variable for the provided variable name.
-
         Parameters::
-
             variable_name--
                 Name of the variable.
-
         Returns::
             
             The base variable.
@@ -2408,14 +2216,10 @@ cdef class FMUModelBase(ModelBase):
         Return a dict of all alias variables belonging to the provided variable
         where the key are the names and the value indicating whether the variable
         should be negated or not.
-
         Returns::
-
             A dict consisting of the alias variables along with no alias variable.
             The values indicates wheter or not the variable should be negated or not.
-
         Raises::
-
             FMUException if the variable is not in the model.
         """
         cdef FMIL.fmi1_import_variable_t *variable
@@ -2453,15 +2257,10 @@ cdef class FMUModelBase(ModelBase):
     cpdef FMIL.fmi1_variability_enu_t get_variable_variability(self, variable_name) except *:
         """
         Get variability of variable.
-
         Parameters::
-
             variablename --
-
                 The name of the variable.
-
         Returns::
-
             The variability of the variable, CONSTANT(0), PARAMETER(1), 
             DISCRETE(2) or CONTINUOUS(3)
         """
@@ -2482,12 +2281,9 @@ cdef class FMUModelBase(ModelBase):
         """
         Get the name of a variable given a value reference. Note that it
         returns the no-aliased variable.
-
         Parameters::
-
             valueref --
                 The value reference of the variable
-
             type --
                 The type of the variables (Real==0, Int==1, Bool=2,
                 String==3, Enumeration==4). Default 0 (i.e Real).
@@ -2505,14 +2301,10 @@ cdef class FMUModelBase(ModelBase):
     cpdef FMIL.fmi1_causality_enu_t get_variable_causality(self, variable_name) except *:
         """
         Get the causality of the variable.
-
         Parameters::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The causality of the variable, INPUT(0), OUTPUT(1),
             INTERNAL(2), NONE(3)
         """
@@ -2670,9 +2462,7 @@ cdef class FMUModelCS1(FMUModelBase):
     def do_step(self, FMIL.fmi1_real_t current_t, FMIL.fmi1_real_t step_size, new_step=True):
         """
         Performs an integrator step.
-
         Parameters::
-
             current_t --
                     The current communication point (current time) of
                     the master.
@@ -2681,14 +2471,11 @@ cdef class FMUModelCS1(FMUModelBase):
             new_step --
                     True the last step was accepted by the master and
                     False if not.
-
         Returns::
-
             status --
                     The status of function which can be checked against
                     FMI_OK, FMI_WARNING. FMI_DISCARD, FMI_ERROR,
                     FMI_FATAL,FMI_PENDING...
-
         Calls the underlying low-level function fmiDoStep.
         """
         cdef int status
@@ -2717,9 +2504,7 @@ cdef class FMUModelCS1(FMUModelBase):
         """
         Returns the output derivatives for the specified variables. The
         order specifies the nth-derivative.
-
         Parameters::
-
                 variables --
                         The variables for which the output derivatives
                         should be returned.
@@ -2768,14 +2553,10 @@ cdef class FMUModelCS1(FMUModelBase):
         """
         Returns the set of valid compatible platforms for the Model, extracted
         from the XML.
-
         Returns::
-
             types_platform --
                 The valid platforms.
-
         Example::
-
             model.types_platform
         """
         types_platform = FMIL.fmi1_import_get_types_platform(self._fmu)
@@ -2803,9 +2584,7 @@ cdef class FMUModelCS1(FMUModelBase):
     def set_input_derivatives(self, variables, values, orders):
         """
         Sets the input derivative order for the specified variables.
-
         Parameters::
-
                 variables --
                         The variables for which the input derivative
                         should be set.
@@ -2861,32 +2640,25 @@ cdef class FMUModelCS1(FMUModelBase):
                  options={}):
         """
         Compact function for model simulation.
-
         The simulation method depends on which algorithm is used, this can be
         set with the function argument 'algorithm'. Options for the algorithm
         are passed as option classes or as pure dicts. See
         FMUModel.simulate_options for more details.
-
         The default algorithm for this function is FMICSAlg.
-
         Parameters::
-
             start_time --
                 Start time for the simulation.
                 Default: Start time defined in the default experiment from
                         the ModelDescription file.
-
             final_time --
                 Final time for the simulation.
                 Default: Stop time defined in the default experiment from
                         the ModelDescription file.
-
             input --
                 Input signal for the simulation. The input should be a 2-tuple
                 consisting of first the names of the input variable(s) and then
                 the data matrix.
                 Default: Empty tuple.
-
             algorithm --
                 The algorithm which will be used for the simulation is specified
                 by passing the algorithm class as string or class object in this
@@ -2895,15 +2667,12 @@ cdef class FMUModelCS1(FMUModelBase):
                 this way it is possible to write own algorithms and use them
                 with this function.
                 Default: 'FMICSAlg'
-
             options --
                 The options that should be used in the algorithm. For details on
                 the options do:
-
                     >> myModel = load_fmu(...)
                     >> opts = myModel.simulate_options()
                     >> opts?
-
                 Valid values are:
                     - A dict which gives AssimuloFMIAlgOptions with
                       default values on all options except the ones
@@ -2911,9 +2680,7 @@ cdef class FMUModelCS1(FMUModelBase):
                       options with default values.
                     - An options object.
                 Default: Empty dict
-
         Returns::
-
             Result object, subclass of common.algorithm_drivers.ResultBase.
         """
         if start_time == "Default":
@@ -2933,16 +2700,12 @@ cdef class FMUModelCS1(FMUModelBase):
         Get an instance of the simulate options class, filled with default
         values. If called without argument then the options class for the
         default simulation algorithm will be returned.
-
         Parameters::
-
             algorithm --
                 The algorithm for which the options class should be fetched.
                 Possible values are: 'FMICSAlg'.
                 Default: 'FMICSAlg'
-
         Returns::
-
             Options class for the algorithm specified with default values.
         """
         return self._default_options('pyfmi.fmi_algorithm_drivers', algorithm)
@@ -2950,9 +2713,7 @@ cdef class FMUModelCS1(FMUModelBase):
     def initialize(self, start_time=0.0, stop_time=1.0, stop_time_defined=False, tStart=None, tStop=None, StopTimeDefined=None):
         """
         Initializes the slave.
-
         Parameters::
-
             start_time --
                 Start time of the simulation.
                 Default: The start time defined in the model description.
@@ -2965,7 +2726,6 @@ cdef class FMUModelCS1(FMUModelBase):
                 Defines if a fixed stop time is defined or not. If this is
                 set the simulation cannot go past the defined stop time.
                 Default: False
-
         Calls the low-level FMU function: fmiInstantiateSlave
         """
         cdef int status
@@ -3023,17 +2783,13 @@ cdef class FMUModelCS1(FMUModelBase):
     def instantiate_slave(self, name='Slave', logging=False):
         """
         Instantiate the slave.
-
         Parameters::
-
             name --
                 The name of the instance.
                 Default: 'Slave'
-
             logging --
                 Defines if the logging should be turned on or off.
                 Default: False, no logging.
-
         Calls the low-level FMI function: fmiInstantiateSlave.
         """
         cdef int status
@@ -3064,9 +2820,7 @@ cdef class FMUModelCS1(FMUModelBase):
     def get_capability_flags(self):
         """
         Returns a dictionary with the capability flags of the FMU.
-
         Capabilities::
-
             canHandleVariableCommunicationStepSize
             canHandleEvents
             canRejectSteps
@@ -3149,14 +2903,10 @@ cdef class FMUModelME1(FMUModelBase):
         """
         Returns the set of valid compatible platforms for the Model, extracted
         from the XML.
-
         Returns::
-
             model_types_platform --
                 The valid platforms.
-
         Example::
-
             model.model_types_platform
         """
         model_types_platform = FMIL.fmi1_import_get_model_types_platform(self._fmu)
@@ -3298,16 +3048,11 @@ cdef class FMUModelME1(FMUModelBase):
     cpdef get_derivatives(self):
         """
         Returns the derivative of the continuous states.
-
         Returns::
-
             dx --
                 The derivative as an array.
-
         Example::
-
             dx = model.get_derivatives()
-
         Calls the low-level FMI function: fmiGetDerivatives
         """
         cdef int status
@@ -3323,16 +3068,11 @@ cdef class FMUModelME1(FMUModelBase):
     def get_event_indicators(self):
         """
         Returns the event indicators at the current time-point.
-
         Return::
-
             evInd --
                 The event indicators as an array.
-
         Example::
-
             evInd = model.get_event_indicators()
-
         Calls the low-level FMI function: fmiGetEventIndicators
         """
         cdef int status
@@ -3353,17 +3093,12 @@ cdef class FMUModelME1(FMUModelBase):
         used. The absolute tolerance is calculated and returned according to
         the FMI specification, atol = 0.01*rtol*(nominal values of the
         continuous states).
-
         Returns::
-
             rtol --
                 The relative tolerance.
-
             atol --
                 The absolute tolerance.
-
         Example::
-
             [rtol, atol] = model.get_tolerances()
         """
         rtol = self.get_default_experiment_tolerance()
@@ -3377,18 +3112,13 @@ cdef class FMUModelME1(FMUModelBase):
         intermediateResult is set to True the update_event will stop at each
         event iteration which would require to loop until
         event_info.iterationConverged == fmiTrue.
-
         Parameters::
-
             intermediateResult --
                 If set to True, the update_event will stop at each event
                 iteration.
                 Default: False.
-
         Example::
-
             model.event_update()
-
         Calls the low-level FMI function: fmiEventUpdate
         """
         cdef int status
@@ -3407,31 +3137,21 @@ cdef class FMUModelME1(FMUModelBase):
     def get_event_info(self):
         """
         Returns the event information from the FMU.
-
         Returns::
-
             The event information, a struct which contains:
-
             iterationConverged --
                 Event iteration converged (if True).
-
             stateValueReferencesChanged --
                 ValueReferences of states x changed (if True).
-
             stateValuesChanged --
                 Values of states x have changed (if True).
-
             terminateSimulation --
                 Error, terminate simulation (if True).
-
             upcomingTimeEvent -
                 If True, nextEventTime is the next time event.
-
             nextEventTime --
                 The next time event.
-
         Example::
-
             event_info    = model.event_info
             nextEventTime = model.event_info.nextEventTime
         """
@@ -3448,16 +3168,11 @@ cdef class FMUModelME1(FMUModelBase):
     def get_state_value_references(self):
         """
         Returns the continuous states valuereferences.
-
         Returns::
-
             val --
                 The references to the continuous states.
-
         Example::
-
             val = model.get_continuous_value_reference()
-
         Calls the low-level FMI function: fmiGetStateValueReferences
         """
         cdef int status
@@ -3477,12 +3192,9 @@ cdef class FMUModelME1(FMUModelBase):
         This method must be called by the environment after every completed step
         of the integrator. If the return is True, then the environment must call
         event_update() otherwise, no action is needed.
-
         Returns::
-
             True -> Call event_update().
             False -> Do nothing.
-
         Calls the low-level FMI function: fmiCompletedIntegratorStep.
         """
         cdef int status
@@ -3504,9 +3216,7 @@ cdef class FMUModelME1(FMUModelBase):
         Initializes the model and computes initial values for all variables,
         including setting the start values of variables defined with a the start
         attribute in the XML-file.
-
         Parameters::
-
             tolerance_defined --
                 If the model are going to be called by numerical solver using
                 step-size control. Boolean flag.
@@ -3516,7 +3226,6 @@ cdef class FMUModelME1(FMUModelBase):
                 If the model are controlled by a numerical solver using
                 step-size control, the same tolerance should be provided here.
                 Else the default tolerance from the XML-file are used.
-
         Calls the low-level FMI function: fmiInitialize.
         """
         cdef char tolerance_controlled
@@ -3576,17 +3285,13 @@ cdef class FMUModelME1(FMUModelBase):
     def instantiate_model(self, name='Model', logging=False):
         """
         Instantiate the model.
-
         Parameters::
-
             name --
                 The name of the instance.
                 Default: 'Model'
-
             logging --
                 Defines if the logging should be turned on or off.
                 Default: False, no logging.
-
         Calls the low-level FMI function: fmiInstantiateModel.
         """
         cdef FMIL.fmi1_boolean_t log
@@ -3623,26 +3328,20 @@ cdef class FMUModelME1(FMUModelBase):
                  options={}):
         """
         Compact function for model simulation.
-
         The simulation method depends on which algorithm is used, this can be
         set with the function argument 'algorithm'. Options for the algorithm
         are passed as option classes or as pure dicts. See
         FMUModel.simulate_options for more details.
-
         The default algorithm for this function is AssimuloFMIAlg.
-
         Parameters::
-
             start_time --
                 Start time for the simulation.
                 Default: Start time defined in the default experiment from
                         the ModelDescription file.
-
             final_time --
                 Final time for the simulation.
                 Default: Stop time defined in the default experiment from
                         the ModelDescription file.
-
             input --
                 Input signal for the simulation. The input should be a 2-tuple
                 consisting of first the names of the input variable(s) and then
@@ -3652,7 +3351,6 @@ cdef class FMUModelME1(FMUModelBase):
                 to time and the output the variable data. See the users-guide
                 for examples.
                 Default: Empty tuple.
-
             algorithm --
                 The algorithm which will be used for the simulation is specified
                 by passing the algorithm class as string or class object in this
@@ -3661,15 +3359,12 @@ cdef class FMUModelME1(FMUModelBase):
                 this way it is possible to write own algorithms and use them
                 with this function.
                 Default: 'AssimuloFMIAlg'
-
             options --
                 The options that should be used in the algorithm. For details on
                 the options do:
-
                     >> myModel = load_fmu(...)
                     >> opts = myModel.simulate_options()
                     >> opts?
-
                 Valid values are:
                     - A dict which gives AssimuloFMIAlgOptions with
                       default values on all options except the ones
@@ -3677,9 +3372,7 @@ cdef class FMUModelME1(FMUModelBase):
                       options with default values.
                     - An options object.
                 Default: Empty dict
-
         Returns::
-
             Result object, subclass of common.algorithm_drivers.ResultBase.
         """
         if start_time == "Default":
@@ -3699,16 +3392,12 @@ cdef class FMUModelME1(FMUModelBase):
         Get an instance of the simulate options class, filled with default
         values. If called without argument then the options class for the
         default simulation algorithm will be returned.
-
         Parameters::
-
             algorithm --
                 The algorithm for which the options class should be fetched.
                 Possible values are: 'AssimuloFMIAlg'.
                 Default: 'AssimuloFMIAlg'
-
         Returns::
-
             Options class for the algorithm specified with default values.
         """
         return self._default_options('pyfmi.fmi_algorithm_drivers', algorithm)
@@ -3740,20 +3429,15 @@ cdef class FMUModelBase2(ModelBase):
     def __init__(self, fmu, path='.', enable_logging=None, log_file_name="", log_level=FMI_DEFAULT_LOG_LEVEL, _unzipped_dir=None, _connect_dll=True):
         """
         Constructor of the model.
-
         Parameters::
-
             fmu --
                 Name of the fmu as a string.
-
             path --
                 Path to the fmu-directory.
                 Default: '.' (working directory)
-
             enable_logging [DEPRECATED] --
                 This option is DEPRECATED and will be removed. Please 
                 use the option "log_level" instead.
-
             log_file_name --
                 Filename for file used to save logmessages.
                 Default: "" (Generates automatically)
@@ -3762,9 +3446,7 @@ cdef class FMUModelBase2(ModelBase):
                 Determines the logging output. Can be set between 0 
                 (no logging) and 7 (everything).
                 Default: 2 (log error messages)
-
         Returns::
-
             A model as an object from the class FMUModelFMU2
         """
 
@@ -3953,21 +3635,14 @@ cdef class FMUModelBase2(ModelBase):
     cpdef N.ndarray get_real(self, valueref):
         """
         Returns the real-values from the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
         Returns::
-
             values --
                 The values retrieved from the FMU.
-
         Example::
-
             val = model.get_real([232])
-
         Calls the low-level FMI function: fmi2GetReal
         """
         cdef int         status
@@ -3985,19 +3660,13 @@ cdef class FMUModelBase2(ModelBase):
     cpdef set_real(self, valueref, values):
         """
         Sets the real-values in the FMU as defined by the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
             values --
                 Values to be set.
-
         Example::
-
             model.set_real([234,235],[2.34,10.4])
-
         Calls the low-level FMI function: fmi2SetReal
         """
         cdef int status
@@ -4028,21 +3697,14 @@ cdef class FMUModelBase2(ModelBase):
     def get_integer(self, valueref):
         """
         Returns the integer-values from the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
         Returns::
-
             values --
                 The values retrieved from the FMU.
-
         Example::
-
             val = model.get_integer([232])
-
         Calls the low-level FMI function: fmi2GetInteger
         """
         cdef int         status
@@ -4063,19 +3725,13 @@ cdef class FMUModelBase2(ModelBase):
     def set_integer(self, valueref, values):
         """
         Sets the integer-values in the FMU as defined by the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
             values --
                 Values to be set.
-
         Example::
-
             model.set_integer([234,235],[12,-3])
-
         Calls the low-level FMI function: fmi2SetInteger
         """
         cdef int status
@@ -4110,21 +3766,14 @@ cdef class FMUModelBase2(ModelBase):
     def get_boolean(self, valueref):
         """
         Returns the boolean-values from the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
         Returns::
-
             values --
                 The values retrieved from the FMU.
-
         Example::
-
             val = model.get_boolean([232])
-
         Calls the low-level FMI function: fmi2GetBoolean
         """
         cdef int         status
@@ -4152,19 +3801,13 @@ cdef class FMUModelBase2(ModelBase):
     def set_boolean(self, valueref, values):
         """
         Sets the boolean-values in the FMU as defined by the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
             values --
                 Values to be set.
-
         Example::
-
             model.set_boolean([234,235],[True,False])
-
         Calls the low-level FMI function: fmi2SetBoolean
         """
         cdef int         status
@@ -4195,21 +3838,14 @@ cdef class FMUModelBase2(ModelBase):
     def get_string(self, valueref):
         """
         Returns the string-values from the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
         Returns::
-
             values --
                 The values retrieved from the FMU.
-
         Example::
-
             val = model.get_string([232])
-
         Calls the low-level FMI function: fmi2GetString
         """
         cdef int         status
@@ -4232,19 +3868,13 @@ cdef class FMUModelBase2(ModelBase):
     def set_string(self, valueref, values):
         """
         Sets the string-values in the FMU as defined by the valuereference(s).
-
         Parameters::
-
             valueref --
                 A list of valuereferences.
-
             values --
                 Values to be set.
-
         Example::
-
             model.set_string([234,235],['text','text'])
-
         Calls the low-level FMI function: fmi2SetString
         """
         cdef int status
@@ -4326,17 +3956,13 @@ cdef class FMUModelBase2(ModelBase):
     def instantiate(self, name= 'Model', visible = False):
         """
         Instantiate the model.
-
         Parameters::
-
             name --
                 The name of the instance.
                 Default: 'Model'
-
             visible --
                 Defines if the simulator application window should be visible or not.
                 Default: False, not visible.
-
         Calls the low-level FMI function: fmi2Instantiate.
         """
 
@@ -4547,7 +4173,6 @@ cdef class FMUModelBase2(ModelBase):
             stop_time --
                 Stop time of the simulation.
                 Default: The stop time defined in the model description.
-
         Calls the low-level FMI functions: fmi2_import_setup_experiment (optionally)
                                            fmi2EnterInitializationMode,
                                            fmi2ExitInitializationMode
@@ -4578,7 +4203,6 @@ cdef class FMUModelBase2(ModelBase):
     def get_fmil_log_level(self):
         """
         Returns::
-
             The current fmil log-level.
         """
 
@@ -4594,16 +4218,12 @@ cdef class FMUModelBase2(ModelBase):
         """
         Specifies if the debugging should be turned on or off.
         Currently the only allowed value for categories is an empty list.
-
         Parameters::
-
             logging_on --
                 Boolean value.
-
             categories --
                 List of categories to log, call get_categories() for list of categories.
                 Default: [] (all categories)
-
         Calls the low-level FMI function: fmi2SetDebuggLogging
         """
 
@@ -4631,7 +4251,6 @@ cdef class FMUModelBase2(ModelBase):
     def get_categories(self):
         """
         Method used to retrieve the logging categories.
-
         Returns::
         
             A list with the categories available for logging.
@@ -4648,17 +4267,12 @@ cdef class FMUModelBase2(ModelBase):
         """
         Returns the nominal value from a real variable determined by
         either its value reference or its variable name.
-
         Parameters::
-
             variable_name --
                 The name of the variable.
-
             valueref --
                 The value reference of the variable.
-
         Returns::
-
             The nominal value of the given variable.
         """
         cdef FMIL.fmi2_import_variable_t*      variable
@@ -4705,21 +4319,15 @@ cdef class FMUModelBase2(ModelBase):
         """
         Get the name of a variable given a value reference. Note that it
         returns the no-aliased variable.
-
         Parameters::
-
             valueref --
                 The value reference of the variable.
-
             type --
                 The type of the variables (Real==0, Int==1, Bool==2,
                 String==3, Enumeration==4).
                 Default: 0 (i.e Real).
-
         Returns::
-
             The name of the variable.
-
         """
         cdef FMIL.fmi2_import_variable_t* variable
 
@@ -4734,14 +4342,10 @@ cdef class FMUModelBase2(ModelBase):
     def get_variable_alias_base(self, variable_name):
         """
         Returns the base variable for the provided variable name.
-
         Parameters::
-
             variable_name--
                 Name of the variable.
-
         Returns:
-
            The base variable.
         """
         cdef FMIL.fmi2_import_variable_t* variable
@@ -4768,19 +4372,13 @@ cdef class FMUModelBase2(ModelBase):
         Return a dict of all alias variables belonging to the provided variable
         where the key are the names and the value indicating whether the variable
         should be negated or not.
-
         Parameters::
-
             variable_name--
                 Name of the variable to find alias of.
-
         Returns::
-
             A dict consisting of the alias variables along with no alias variable.
             The values indicates whether or not the variable should be negated or not.
-
         Raises::
-
             FMUException if the variable is not in the model.
         """
         cdef FMIL.fmi2_import_variable_t         *variable
@@ -4822,17 +4420,13 @@ cdef class FMUModelBase2(ModelBase):
         Extract the value references of the variables in a model
         that are time-varying. This method is typically used to
         retrieve the variables for which the result can be stored.
-
         Parameters::
-
             filter --
                 Filter the variables using a unix filename pattern
                 matching (filter="*der*"). Can also be a list of filters
                 See http://docs.python.org/2/library/fnmatch.html.
                 Default None
-
         Returns::
-
             Three lists with the real, integer and boolean value-references
         """
         cdef FMIL.fmi2_import_variable_t*        variable
@@ -4907,47 +4501,37 @@ cdef class FMUModelBase2(ModelBase):
                             filter = None, int _as_list = False):
         """
         Extract the names of the variables in a model.
-
         Parameters::
-
             type --
                 The type of the variables (Real==0, Int==1, Bool==2,
                 String==3, Enumeration==4).
                 Default: None (i.e all).
-
             include_alias --
                 If alias should be included or not.
                 Default: True
-
             causality --
                 The causality of the variables (Parameter==0, 
                 Calculated Parameter==1, Input==2, Output==3, Local==4, 
                 Independent==5, Unknown==6).
                 Default: None (i.e all).
-
             variability --
                 The variability of the variables (Constant==0,
                 Fixed==1, Tunable==2, Discrete==3, Continuous==4, Unknown==5).
                 Default: None (i.e. all)
-
             only_start --
                 If only variables that has a start value should be
                 returned.
                 Default: False
-
             only_fixed --
                 If only variables that has a start value that is fixed
                 should be returned.
                 Default: False
-
             filter --
                 Filter the variables using a unix filename pattern
                 matching (filter="*der*"). Can also be a list of filters
                 See http://docs.python.org/2/library/fnmatch.html.
                 Default None
-
         Returns::
-
             Dict with variable name as key and a ScalarVariable class as
             value.
         """
@@ -5063,26 +4647,18 @@ cdef class FMUModelBase2(ModelBase):
         """
         Retrieves the value references of all variables. The
         information about the variables are retrieved from the XML-file.
-
         Returns::
-
             vr_real --
                 The Real-valued variables.
-
             vr_int --
                 The Integer-valued variables.
-
             vr_bool --
                 The Boolean-valued variables.
-
             vr_str --
                 The String-valued variables.
-
             vr_enum --
                 The Enum-valued variables
-
         Example::
-
             [r,i,b,s,e] = model.get_value_references()
         """
         vr_real = self._save_real_variables_val
@@ -5100,14 +4676,10 @@ cdef class FMUModelBase2(ModelBase):
     cpdef FMIL.fmi2_value_reference_t get_variable_valueref(self, variable_name) except *:
         """
         Extract the ValueReference given a variable name.
-
         Parameters::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The ValueReference for the variable passed as argument.
         """
         cdef FMIL.fmi2_import_variable_t* variable
@@ -5128,12 +4700,9 @@ cdef class FMUModelBase2(ModelBase):
         Return the given variables declared type.
         
         Parameters::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The declared type.
         """
         cdef FMIL.fmi2_import_variable_t* variable
@@ -5253,14 +4822,10 @@ cdef class FMUModelBase2(ModelBase):
     cpdef FMIL.fmi2_base_type_enu_t get_variable_data_type(self, variable_name) except *:
         """
         Get data type of variable.
-
         Parameter::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The type of the variable.
         """
         cdef FMIL.fmi2_import_variable_t* variable
@@ -5280,14 +4845,10 @@ cdef class FMUModelBase2(ModelBase):
     cpdef get_variable_description(self, variable_name):
         """
         Get the description of a given variable.
-
         Parameter::
-
             variable_name --
                 The name of the variable
-
         Returns::
-
             The description of the variable.
         """
         cdef FMIL.fmi2_import_variable_t* variable
@@ -5307,14 +4868,10 @@ cdef class FMUModelBase2(ModelBase):
     cpdef FMIL.fmi2_variability_enu_t get_variable_variability(self, variable_name) except *:
         """
         Get variability of the variable.
-
         Parameters::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The variability of the variable: CONSTANT(0), FIXED(1),
             TUNABLE(2), DISCRETE(3), CONTINUOUS(4) or UNKNOWN(5)
         """
@@ -5525,14 +5082,10 @@ cdef class FMUModelBase2(ModelBase):
     cpdef FMIL.fmi2_causality_enu_t get_variable_causality(self, variable_name) except *:
         """
         Get the causality of the variable.
-
         Parameters::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The causality of the variable, PARAMETER(0), CALCULATED_PARAMETER(1), INPUT(2),
             OUTPUT(3), LOCAL(4), INDEPENDENT(5), UNKNOWN(6)
         """
@@ -5554,14 +5107,10 @@ cdef class FMUModelBase2(ModelBase):
         """
         Returns the start value for the variable or else raises
         FMUException.
-
         Parameters::
-
             variable_name --
                 The name of the variable
-
         Returns::
-
             The start value.
         """
         cdef FMIL.fmi2_import_variable_t *        variable
@@ -5614,14 +5163,10 @@ cdef class FMUModelBase2(ModelBase):
     cpdef get_variable_max(self, variable_name):
         """
         Returns the maximum value for the given variable.
-
         Parameters::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The maximum value for the variable.
         """
         cdef FMIL.fmi2_import_variable_t*         variable
@@ -5657,14 +5202,10 @@ cdef class FMUModelBase2(ModelBase):
     cpdef get_variable_min(self, variable_name):
         """
         Returns the minimum value for the given variable.
-
         Parameters::
-
             variable_name --
                 The name of the variable.
-
         Returns::
-
             The minimum value for the variable.
         """
         cdef FMIL.fmi2_import_variable_t*         variable
@@ -5702,18 +5243,12 @@ cdef class FMUModelBase2(ModelBase):
         Creates a copy of the recent FMU-state and returns
         a pointer to this state which later can be used to
         set the FMU to this state.
-
         Parameters::
-
             state --
                 Optionally a pointer to an already allocated FMU state
-
         Returns::
-
             A pointer to a copy of the recent FMU state.
-
         Example::
-
             FMU_state = model.get_fmu_state()
         """
         cdef int status
@@ -5739,14 +5274,10 @@ cdef class FMUModelBase2(ModelBase):
     def set_fmu_state(self, FMUState2 state):
         """
         Set the FMU to a previous saved state.
-
         Parameter::
-
             state--
                 A pointer to a FMU-state.
-
         Example::
-
             FMU_state = Model.get_fmu_state()
             Model.set_fmu_state(FMU_state)
         """
@@ -5773,17 +5304,12 @@ cdef class FMUModelBase2(ModelBase):
     def free_fmu_state(self, FMUState2 state):
         """
         Free a previously saved FMU-state from the memory.
-
         Parameters::
-
             state--
                 A pointer to the FMU-state to be set free.
-
         Example::
-
             FMU_state = Model.get_fmu_state()
             Model.free_fmu_state(FMU_state)
-
         """
         cdef int status
         cdef FMIL.fmi2_FMU_state_t internal_state = state.fmu_state
@@ -5801,20 +5327,16 @@ cdef class FMUModelBase2(ModelBase):
         
         #Memory has been released
         state.fmu_state = NULL
-        state._internal_state_variables = {}
+        state._internal_state_variables = OrderedDict([])
 
     cpdef serialize_fmu_state(self, state):
         """
         Serialize the data referenced by the input argument.
-
         Parameters::
-
             state --
                 A FMU-state.
-
         Returns::
             A list with a vector with the serialized FMU-state and internal state values.
-
         Example::
             FMU_state = Model.get_fmu_state()
             serialized_fmu = Model.serialize_fmu_state(FMU_state)
@@ -5847,18 +5369,12 @@ cdef class FMUModelBase2(ModelBase):
     cpdef deserialize_fmu_state(self, serialized_fmu):
         """
         De-serialize the provided byte-vector and returns the corresponding FMU-state.
-
         Parameters::
-
             serialized_fmu--
                 A serialized FMU-state.
-
         Returns::
-
             A deserialized FMU-state.
-
         Example::
-
             FMU_state = Model.get_fmu_state()
             serialized_fmu = Model.serialize_fmu_state(FMU_state)
             FMU_state = Model.deserialize_fmu_state(serialized_fmu)
@@ -5875,24 +5391,21 @@ cdef class FMUModelBase2(ModelBase):
             raise FMUException('An error occured while deserializing the FMU-state, see the log for possible more information')
 
 
-        state._internal_state_variables = {'initialized_fmu': serialized_fmu[1][0],
-                                           'has_entered_init_mode': serialized_fmu[1][1],
-                                           'time': serialized_fmu[1][2],
-                                           'callback_log_level': serialized_fmu[1][3]}
+        state._internal_state_variables = OrderedDict([
+                                            ('initialized_fmu', serialized_fmu[1][0]),
+                                            ('has_entered_init_mode', serialized_fmu[1][1]),
+                                            ('time', serialized_fmu[1][2]),
+                                            ('callback_log_level', serialized_fmu[1][3])])
 
         return state
 
     cpdef serialized_fmu_state_size(self, state):
         """
         Returns the required size of a vector needed to serialize the specified FMU-state
-
         Parameters::
-
             state--
                 A FMU-state
-
         Returns::
-
             The size of the vector.
         """
 
@@ -5911,17 +5424,12 @@ cdef class FMUModelBase2(ModelBase):
         """
         Returns the number of continuous states and the number of event
         indicators.
-
         Returns::
-
             nbr_cont --
                 The number of continuous states.
-
             nbr_ind --
                 The number of event indicators.
-
         Example::
-
             [nCont, nEvent] = model.get_ode_sizes()
         """
         return self._nContinuousStates, self._nEventIndicators
@@ -5991,9 +5499,7 @@ cdef class FMUModelBase2(ModelBase):
     def get_derivatives_list(self):
         """
         Returns a dictionary with the states derivatives.
-
         Returns::
-
             An ordered dictionary with the derivative variables.
         """
         cdef FMIL.fmi2_import_variable_list_t*   variable_list
@@ -6332,7 +5838,6 @@ cdef class FMUModelBase2(ModelBase):
         Returns::
             The A,B,C,D matrices. If not all are computed, the ones that
             are not computed will be represented by a boolean flag.
-
         """
         if A:
             A = self._get_A(use_structure_info)
@@ -6349,9 +5854,7 @@ cdef class FMUModelBase2(ModelBase):
     def get_states_list(self):
         """
         Returns a dictionary with the states.
-
         Returns::
-
             An ordered dictionary with the state variables.
         """
         cdef FMIL.fmi2_import_variable_list_t*   variable_list
@@ -6379,9 +5882,7 @@ cdef class FMUModelBase2(ModelBase):
     def get_input_list(self):
         """
         Returns a dictionary with input variables
-
         Returns::
-
             An ordered dictionary with the (real) (continuous) input variables.
         """
         variable_dict = self.get_model_variables(type=FMI2_REAL, include_alias = False,
@@ -6392,9 +5893,7 @@ cdef class FMUModelBase2(ModelBase):
     def get_output_list(self):
         """
         Returns a dictionary with output variables
-
         Returns::
-
             An ordered dictionary with the (real) (continuous) output variables.
         """
         cdef FMIL.fmi2_import_variable_list_t*   variable_list
@@ -6426,45 +5925,30 @@ cdef class FMUModelBase2(ModelBase):
         In other words, it returns linear combinations of the partial derivatives
         of the given functions with respect to the selected variables.
         The point of evaluation is the current time-point.
-
         Parameters::
-
             var_ref --
                 A list of variable references that the partial derivatives
                 will be calculated with respect to.
-
             func_ref --
                 A list of function references for which the partial derivatives will be calculated.
-
             v --
                 A seed vector specifying the linear combination of the partial derivatives.
-
         Returns::
-
             value --
                 A vector with the directional derivatives (linear combination of
                 partial derivatives) evaluated in the current time point.
-
-
         Example::
-
             states = model.get_states_list()
             states_references = [s.value_reference for s in states.values()]
             derivatives = model.get_derivatives_list()
             derivatives_references = [d.value_reference for d in derivatives.values()]
             model.get_directional_derivative(states_references, derivatives_references, v)
-
             This returns Jv, where J is the Jacobian and v the seed vector.
-
             Also, only a subset of the derivatives and and states can be selected:
-
             model.get_directional_derivative(var_ref = [0,1], func_ref = [2,3], v = [1,2])
-
             This returns a vector with two values where:
-
             values[0] = (df2/dv0) * 1 + (df2/dv1) * 2
             values[1] = (df3/dv0) * 1 + (df3/dv1) * 2
-
         """
 
         cdef int status
@@ -6522,14 +6006,10 @@ cdef class FMUModelBase2(ModelBase):
     def get_version(self):
         """
         Returns the FMI version of the Model which it was generated according.
-
         Returns::
-
             version --
                 The version.
-
         Example::
-
             model.get_version()
         """
         cdef char* version = FMIL.fmi2_import_get_version(self._fmu)
@@ -6639,20 +6119,15 @@ cdef class FMUModelCS2(FMUModelBase2):
     def __init__(self, fmu, path = '.', enable_logging = None, log_file_name = "", log_level=FMI_DEFAULT_LOG_LEVEL, _unzipped_dir=None, _connect_dll=True):
         """
         Constructor of the model.
-
         Parameters::
-
             fmu --
                 Name of the fmu as a string.
-
             path --
                 Path to the fmu-directory.
                 Default: '.' (working directory)
-
             enable_logging [DEPRECATED] --
                 This option is DEPRECATED and will be removed. Please 
                 use the option "log_level" instead.
-
             log_file_name --
                 Filename for file used to save log messages.
                 Default: "" (Generates automatically)
@@ -6661,9 +6136,7 @@ cdef class FMUModelCS2(FMUModelBase2):
                 Determines the logging output. Can be set between 0 
                 (no logging) and 7 (everything).
                 Default: 2 (log error messages)
-
         Returns::
-
             A model as an object from the class FMUModelCS2
         """
 
@@ -6713,7 +6186,6 @@ cdef class FMUModelCS2(FMUModelBase2):
     cpdef _get_time(self):
         """
         Returns the current time of the simulation.
-
         Returns::
             The time.
         """
@@ -6722,7 +6194,6 @@ cdef class FMUModelCS2(FMUModelBase2):
     cpdef _set_time(self, FMIL.fmi2_real_t t):
         """
         Sets the current time of the simulation. 
-
         Parameters:: 
             t-- 
                 The time to set.
@@ -6738,27 +6209,20 @@ cdef class FMUModelCS2(FMUModelBase2):
     cpdef int do_step(self, FMIL.fmi2_real_t current_t, FMIL.fmi2_real_t step_size, new_step=True):
         """
         Performs an integrator step.
-
         Parameters::
-
             current_t --
                 The current communication point (current time) of
                 the master.
-
             step_size --
                 The length of the step to be taken.
-
             new_step --
                 True the last step was accepted by the master and
                 False if not.
-
         Returns::
-
             status --
                     The status of function which can be checked against
                     FMI_OK, FMI_WARNING. FMI_DISCARD, FMI_ERROR,
                     FMI_FATAL,FMI_PENDING...
-
         Calls the underlying low-level function fmi2DoStep.
         """
         cdef int status
@@ -6799,16 +6263,12 @@ cdef class FMUModelCS2(FMUModelBase2):
     def set_input_derivatives(self, variables, values, FMIL.fmi2_integer_t order):
         """
         Sets the input derivative order for the specified variables.
-
         Parameters::
-
                 variables --
                         The variables as a string or list of strings for
                         which the input derivative(s) should be set.
-
                 values --
                         The actual values.
-
                 order --
                         The derivative order to set.
         """
@@ -6866,18 +6326,13 @@ cdef class FMUModelCS2(FMUModelBase2):
         """
         Returns the output derivatives for the specified variables. The
         order specifies the nth-derivative.
-
         Parameters::
-
             variables --
                 The variables for which the output derivatives
                 should be returned.
-
             order --
                 The derivative order.
-
         Returns::
-
             The derivatives of the specified order.
         """
         cdef int status
@@ -6936,18 +6391,14 @@ cdef class FMUModelCS2(FMUModelBase2):
     def get_status(self, status_kind):
         """
         Retrieves the fmi-status for the the specified fmi-staus-kind.
-
         Parameters::
-
             status_kind --
                 An integer corresponding to one of the following:
                 fmi2DoStepStatus       = 0
                 fmi2PendingStatus      = 1
                 fmi2LastSuccessfulTime = 2
                 fmi2Terminated         = 3
-
         Returns::
-
             status_ok      = 0
             status_warning = 1
             status_discard = 2
@@ -6977,14 +6428,10 @@ cdef class FMUModelCS2(FMUModelBase2):
         for the specified fmi-status-kind.
         See docstring for function get_status() for more
         information about fmi-status-kind.
-
         Parameters::
-
             status_kind--
                 integer indicating the status kind
-
         Returns::
-
             The status.
         """
 
@@ -7010,14 +6457,10 @@ cdef class FMUModelCS2(FMUModelBase2):
         for the specified fmi-status-kind.
         See docstring for function get_status() for more
         information about fmi-status-kind.
-
         Parameters::
-
             status_kind--
                 integer indicating the status kind
-
         Returns::
-
             The status.
         """
 
@@ -7043,14 +6486,10 @@ cdef class FMUModelCS2(FMUModelBase2):
         for the specified fmi-status-kind.
         See docstring for function get_status() for more
         information about fmi-status-kind.
-
         Parameters::
-
             status_kind--
                 integer indicating the status kind
-
         Returns::
-
             The status.
         """
 
@@ -7076,14 +6515,10 @@ cdef class FMUModelCS2(FMUModelBase2):
         for the specified fmi-status-kind.
         See docstring for function get_status() for more
         information about fmi-status-kind.
-
         Parameters::
-
             status_kind--
                 integer indicating the status kind
-
         Returns::
-
             The status.
         """
 
@@ -7112,32 +6547,25 @@ cdef class FMUModelCS2(FMUModelBase2):
                  options={}):
         """
         Compact function for model simulation.
-
         The simulation method depends on which algorithm is used, this can be
         set with the function argument 'algorithm'. Options for the algorithm
         are passed as option classes or as pure dicts. See
         FMUModel.simulate_options for more details.
-
         The default algorithm for this function is FMICSAlg.
-
         Parameters::
-
             start_time --
                 Start time for the simulation.
                 Default: Start time defined in the default experiment from
                         the ModelDescription file.
-
             final_time --
                 Final time for the simulation.
                 Default: Stop time defined in the default experiment from
                         the ModelDescription file.
-
             input --
                 Input signal for the simulation. The input should be a 2-tuple
                 consisting of first the names of the input variable(s) and then
                 the data matrix.
                 Default: Empty tuple.
-
             algorithm --
                 The algorithm which will be used for the simulation is specified
                 by passing the algorithm class as string or class object in this
@@ -7146,15 +6574,12 @@ cdef class FMUModelCS2(FMUModelBase2):
                 this way it is possible to write own algorithms and use them
                 with this function.
                 Default: 'FMICSAlg'
-
             options --
                 The options that should be used in the algorithm. For details on
                 the options do:
-
                     >> myModel = load_fmu(...)
                     >> opts = myModel.simulate_options()
                     >> opts?
-
                 Valid values are:
                     - A dict which gives AssimuloFMIAlgOptions with
                       default values on all options except the ones
@@ -7162,9 +6587,7 @@ cdef class FMUModelCS2(FMUModelBase2):
                       options with default values.
                     - An options object.
                 Default: Empty dict
-
         Returns::
-
             Result object, subclass of common.algorithm_drivers.ResultBase.
         """
         if start_time == "Default":
@@ -7184,16 +6607,12 @@ cdef class FMUModelCS2(FMUModelBase2):
         Get an instance of the simulate options class, filled with default
         values. If called without argument then the options class for the
         default simulation algorithm will be returned.
-
         Parameters::
-
             algorithm --
                 The algorithm for which the options class should be fetched.
                 Possible values are: 'FMICSAlg'.
                 Default: 'FMICSAlg'
-
         Returns::
-
             Options class for the algorithm specified with default values.
         """
         return self._default_options('pyfmi.fmi_algorithm_drivers', algorithm)
@@ -7201,7 +6620,6 @@ cdef class FMUModelCS2(FMUModelBase2):
     def get_capability_flags(self):
         """
         Returns a dictionary with the capability flags of the FMU.
-
         Returns::
             Dictionary with keys:
             needsExecutionTool
@@ -7249,20 +6667,15 @@ cdef class FMUModelME2(FMUModelBase2):
     def __init__(self, fmu, path = '.', enable_logging = None, log_file_name = "", log_level=FMI_DEFAULT_LOG_LEVEL, _unzipped_dir=None, _connect_dll=True):
         """
         Constructor of the model.
-
         Parameters::
-
             fmu --
                 Name of the fmu as a string.
-
             path --
                 Path to the fmu-directory.
                 Default: '.' (working directory)
-
             enable_logging [DEPRECATED] --
                 This option is DEPRECATED and will be removed. Please 
                 use the option "log_level" instead.
-
             log_file_name --
                 Filename for file used to save logmessages.
                 Default: "" (Generates automatically)
@@ -7271,9 +6684,7 @@ cdef class FMUModelME2(FMUModelBase2):
                 Determines the logging output. Can be set between 0 
                 (no logging) and 7 (everything).
                 Default: 2 (log error messages)
-
         Returns::
-
             A model as an object from the class FMUModelME2
         """
         #Call super
@@ -7332,7 +6743,6 @@ cdef class FMUModelME2(FMUModelBase2):
     cpdef _get_time(self):
         """
         Returns the current time of the simulation.
-
         Returns::
             The time.
         """
@@ -7341,7 +6751,6 @@ cdef class FMUModelME2(FMUModelBase2):
     cpdef _set_time(self, FMIL.fmi2_real_t t):
         """
         Sets the current time of the simulation.
-
         Parameters::
             t--
                 The time to set.
@@ -7363,31 +6772,21 @@ cdef class FMUModelME2(FMUModelBase2):
     def get_event_info(self):
         """
         Returns the event information from the FMU.
-
         Returns::
-
             The event information, a struct which contains:
-
             newDiscreteStatesNeeded --
                 Event iteration did not converge (if True).
-
             terminateSimulation --
                 Error, terminate simulation (if True).
-
             nominalsOfContinuousStatesChanged --
                 Values of states x have changed (if True).
-
             valuesOfContinuousStatesChanged --
                 ValueReferences of states x changed (if True).
-
             nextEventTimeDefined -
                 If True, nextEventTime is the next time event.
-
             nextEventTime --
                 The next time event.
-
         Example::
-
             event_info    = model.event_info
             nextEventTime = model.event_info.nextEventTime
         """
@@ -7433,16 +6832,11 @@ cdef class FMUModelME2(FMUModelBase2):
     def get_event_indicators(self):
         """
         Returns the event indicators at the current time-point.
-
         Returns::
-
             evInd --
                 The event indicators as an array.
-
         Example::
-
             evInd = model.get_event_indicators()
-
         Calls the low-level FMI function: fmiGetEventIndicators
         """
         cdef int status
@@ -7461,18 +6855,13 @@ cdef class FMUModelME2(FMUModelBase2):
         intermediateResult is set to True the update_event will stop at each
         event iteration which would require to loop until
         event_info.newDiscreteStatesNeeded == fmiFalse.
-
         Parameters::
-
             intermediateResult --
                 If set to True, the update_event will stop at each event
                 iteration.
                 Default: False.
-
         Example::
-
             model.event_update()
-
         Calls the low-level FMI function: fmi2NewDiscreteStates
         """
         cdef int status
@@ -7509,17 +6898,12 @@ cdef class FMUModelME2(FMUModelBase2):
         used. The absolute tolerance is calculated and returned according to
         the FMI specification, atol = 0.01*rtol*(nominal values of the
         continuous states).
-
         Returns::
-
             rtol --
                 The relative tolerance.
-
             atol --
                 The absolute tolerance.
-
         Example::
-
             [rtol, atol] = model.get_tolerances()
         """
 
@@ -7548,12 +6932,9 @@ cdef class FMUModelME2(FMUModelBase2):
         This method must be called by the environment after every completed step
         of the integrator. If the return is True, then the environment must call
         event_update() otherwise, no action is needed.
-
         Returns::
-
             True -> Call event_update().
             False -> Do nothing.
-
         Calls the low-level FMI function: fmi2CompletedIntegratorStep.
         """
         cdef int status
@@ -7579,9 +6960,7 @@ cdef class FMUModelME2(FMUModelBase2):
     def _get_continuous_states(self):
         """
         Returns a vector with the values of the continuous states.
-
         Returns::
-
             The continuous states.
         """
         cdef int status
@@ -7602,9 +6981,7 @@ cdef class FMUModelME2(FMUModelBase2):
     def _set_continuous_states(self, N.ndarray[FMIL.fmi2_real_t, ndim=1, mode="c"] values):
         """
         Set the values of the continuous states.
-
         Parameters::
-
             values--
                 The new values of the continuous states.
         """
@@ -7632,7 +7009,6 @@ cdef class FMUModelME2(FMUModelBase2):
     def _get_nominal_continuous_states(self):
         """
         Returns the nominal values of the continuous states.
-
         Returns::
             The nominal values.
         """
@@ -7662,16 +7038,11 @@ cdef class FMUModelME2(FMUModelBase2):
     cpdef get_derivatives(self):
         """
         Returns the derivative of the continuous states.
-
         Returns::
-
             dx --
                 The derivatives as an array.
-
         Example::
-
             dx = model.get_derivatives()
-
         Calls the low-level FMI function: fmi2GetDerivatives
         """
         cdef int status
@@ -7693,26 +7064,20 @@ cdef class FMUModelME2(FMUModelBase2):
                  options={}):
         """
         Compact function for model simulation.
-
         The simulation method depends on which algorithm is used, this can be
         set with the function argument 'algorithm'. Options for the algorithm
         are passed as option classes or as pure dicts. See
         FMUModel.simulate_options for more details.
-
         The default algorithm for this function is AssimuloFMIAlg.
-
         Parameters::
-
             start_time --
                 Start time for the simulation.
                 Default: Start time defined in the default experiment from
                         the ModelDescription file.
-
             final_time --
                 Final time for the simulation.
                 Default: Stop time defined in the default experiment from
                         the ModelDescription file.
-
             input --
                 Input signal for the simulation. The input should be a 2-tuple
                 consisting of first the names of the input variable(s) and then
@@ -7722,7 +7087,6 @@ cdef class FMUModelME2(FMUModelBase2):
                 to time and the output the variable data. See the users-guide
                 for examples.
                 Default: Empty tuple.
-
             algorithm --
                 The algorithm which will be used for the simulation is specified
                 by passing the algorithm class as string or class object in this
@@ -7731,15 +7095,12 @@ cdef class FMUModelME2(FMUModelBase2):
                 this way it is possible to write own algorithms and use them
                 with this function.
                 Default: 'AssimuloFMIAlg'
-
             options --
                 The options that should be used in the algorithm. For details on
                 the options do:
-
                     >> myModel = load_fmu(...)
                     >> opts = myModel.simulate_options()
                     >> opts?
-
                 Valid values are:
                     - A dict which gives AssimuloFMIAlgOptions with
                       default values on all options except the ones
@@ -7747,9 +7108,7 @@ cdef class FMUModelME2(FMUModelBase2):
                       options with default values.
                     - An options object.
                 Default: Empty dict
-
         Returns::
-
             Result object, subclass of common.algorithm_drivers.ResultBase.
         """
         if start_time == "Default":
@@ -7769,16 +7128,12 @@ cdef class FMUModelME2(FMUModelBase2):
         Get an instance of the simulate options class, filled with default
         values. If called without argument then the options class for the
         default simulation algorithm will be returned.
-
         Parameters::
-
             algorithm --
                 The algorithm for which the options class should be fetched.
                 Possible values are: 'AssimuloFMIAlg'.
                 Default: 'AssimuloFMIAlg'
-
         Returns::
-
             Options class for the algorithm specified with default values.
         """
         return self._default_options('pyfmi.fmi_algorithm_drivers', algorithm)
@@ -7786,7 +7141,6 @@ cdef class FMUModelME2(FMUModelBase2):
     def get_capability_flags(self):
         """
         Returns a dictionary with the capability flags of the FMU.
-
         Returns::
             Dictionary with keys:
             needsExecutionTool
@@ -8103,24 +7457,18 @@ def _handle_load_fmu_exception(fmu, log_data):
 def load_fmu(fmu, path = '.', enable_logging = None, log_file_name = "", kind = 'auto', log_level=FMI_DEFAULT_LOG_LEVEL):
     """
     Helper method for creating a model instance.
-
     Parameters::
-
         fmu --
             Name of the fmu as a string.
-
         path --
             Path to the fmu-directory.
             Default: '.' (working directory)
-
         enable_logging [DEPRECATED] --
             This option is DEPRECATED and will be removed. Please use
             the option "log_level" instead.
-
         log_file_name --
             Filename for file used to save logmessages.
             Default: "" (Generates automatically)
-
         kind --
             String indicating the kind of model to create. This is only
             needed if a FMU contains both a ME and CS model.
@@ -8136,7 +7484,6 @@ def load_fmu(fmu, path = '.', enable_logging = None, log_file_name = "", kind = 
             Default: 2 (log error messages)
         
     Returns::
-
         A model instance corresponding to the loaded FMU.
     """
 
@@ -8413,4 +7760,3 @@ cdef class WorkerClass2:
             ret = <FMIL.fmi2_value_reference_t*>PyArray_DATA(self._tmp4_ref)
         
         return ret
-
